@@ -1,5 +1,4 @@
 import requests
-import json
 
 import app.config as config
 import app.models.TimeSeries as time_series
