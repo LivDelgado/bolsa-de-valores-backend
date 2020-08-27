@@ -18,5 +18,10 @@ class TimeEntry(BaseModel):
     value: Optional[float]
 
 class BovespaTimeSeries(BaseModel):
-    info: Optional[EnterpriseInfo]
+    info: Optional[EnterpriseInfo] = EnterpriseInfo()
     updates: List[TimeEntry] = []
+
+class EnterpriseMatch(BaseModel):
+    symbol: Optional[str]
+    name: Optional[str]
+    match_score: Optional[float]

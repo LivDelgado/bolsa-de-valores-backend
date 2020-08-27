@@ -9,7 +9,7 @@ def convert_string_value_to_float(value):
     s = value[:-1].replace('.', '') + '.' + value[-1:]
     return float(s)
 
-def converter_time_series(to_convert):
+def convert_time_series(to_convert):
     updates = []
     time_series_daily = to_convert['Time Series (Daily)']
     count = 0
@@ -22,9 +22,12 @@ def converter_time_series(to_convert):
         count += 1
     return updates
 
-def converter_enterprise_info(to_convert): 
+def convert_enterprise_info(to_convert): 
     enterprise = time_series.EnterpriseInfo()
+    print(to_convert)
     data = to_convert["Global Quote"]
+    if (len(data) == 0):
+        return None
     enterprise.symbol = data["01. symbol"]
     enterprise.open_value = convert_string_value_to_float(data["02. open"])
     enterprise.high_value = convert_string_value_to_float(data["03. high"])
@@ -37,6 +40,20 @@ def converter_enterprise_info(to_convert):
     enterprise.change_percentage = data["10. change percent"]
     return enterprise
 
+def converter_enterprise_matches(to_convert):
+    best_matches = to_convert["bestMatches"]
+    enterprise_matches = []
+    if len(best_matches) == 0:
+        return []
+    else:
+        for match in best_matches:
+            enterprise_match = time_series.EnterpriseMatch()
+            enterprise_match.symbol = match["1. symbol"]
+            enterprise_match.name = match["2. name"]
+            enterprise_match.match_score = match["9. matchScore"]
+            enterprise_matches.append(enterprise_match)
+        return enterprise_matches
+
 async def obter_variacoes_ibovespa():
     data = { 
         "datatype": "json",
@@ -44,7 +61,7 @@ async def obter_variacoes_ibovespa():
         "symbol": constants.BOVESPA
     }
     response = requests.get(config.API_URL, params = data)
-    return converter_time_series(response.json())
+    return convert_time_series(response.json())
 
 async def obter_informacoes_empresa(symbol):
     data = {
@@ -53,4 +70,13 @@ async def obter_informacoes_empresa(symbol):
         "symbol": symbol
     }
     response = requests.get(config.API_URL, params = data)
-    return converter_enterprise_info(response.json())
+    return convert_enterprise_info(response.json())
+
+async def procurar_empresa(nome_empresa):
+    data = {
+        "datatype": "json",
+        "function": "SYMBOL_SEARCH", 
+        "keywords": nome_empresa
+    }
+    response = requests.get(config.API_URL, params = data)
+    return converter_enterprise_matches(response.json())

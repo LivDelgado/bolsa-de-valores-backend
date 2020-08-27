@@ -1,5 +1,5 @@
 #external
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 #internal
@@ -23,8 +23,30 @@ app.add_middleware(
 )
 
 @app.get("/pontos-ibovespa")
-async def pontos_ibovespa(response_model = time_series.BovespaTimeSeries):
+async def pontos_ibovespa():
     bovespa = time_series.BovespaTimeSeries()
     bovespa.updates = await alpha.obter_variacoes_ibovespa()
     bovespa.info = await alpha.obter_informacoes_empresa(constants.BOVESPA)
     return bovespa
+
+@app.get("/empresas")
+async def listar_possiveis_empresas(nome_empresa: str):
+    retorno_busca = await alpha.procurar_empresa(nome_empresa)
+    print(len(retorno_busca))
+    if len(retorno_busca) == 0:
+        raise HTTPException(
+            status_code = 404,
+            detail="Nenhuma empresa foi encontrada a partir do nome informado."
+        )
+    return retorno_busca
+
+@app.get("/empresas/{simbolo}")
+async def obter_empresa(simbolo: str):
+    retorno = await alpha.obter_informacoes_empresa(simbolo)
+    if (retorno == None):
+        raise HTTPException(
+            status_code = 404,
+            detail="Nenhuma empresa foi encontrada a partir do símbolo informado."
+        )
+    else:
+        return retorno
