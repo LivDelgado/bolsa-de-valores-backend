@@ -8,15 +8,15 @@ class EnterpriseInfo(BaseModel):
     low_value: Optional[float]
     price_value: Optional[float]
     volume_value: Optional[float]
-    data: Optional[str] = None
+    date: Optional[str] = None
     previous_close: Optional[float]
     change: Optional[str]
     change_percentage: Optional[str]
 
 class TimeEntry(BaseModel):
-    data: Optional[str] = None
+    date: Optional[str] = None
     value: Optional[float]
 
 class BovespaTimeSeries(BaseModel):
-    informacoes: Optional[EnterpriseInfo]
-    atualizacoes: List[TimeEntry] = []
+    info: Optional[EnterpriseInfo]
+    updates: List[TimeEntry] = []

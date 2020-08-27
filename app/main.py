@@ -25,6 +25,6 @@ app.add_middleware(
 @app.get("/pontos-ibovespa")
 async def pontos_ibovespa(response_model = time_series.BovespaTimeSeries):
     bovespa = time_series.BovespaTimeSeries()
-    bovespa.atualizacoes = await alpha.obter_variacoes_ibovespa()
-    bovespa.informacoes = await alpha.obter_informacoes_empresa(constants.BOVESPA)
+    bovespa.updates = await alpha.obter_variacoes_ibovespa()
+    bovespa.info = await alpha.obter_informacoes_empresa(constants.BOVESPA)
     return bovespa

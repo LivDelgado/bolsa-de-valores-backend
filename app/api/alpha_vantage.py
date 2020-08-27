@@ -10,17 +10,17 @@ def convert_string_value_to_float(value):
     return float(s)
 
 def converter_time_series(to_convert):
-    atualizacoes = []
+    updates = []
     time_series_daily = to_convert['Time Series (Daily)']
     count = 0
     for day in time_series_daily:
         if count < 10:
-            atualizacao = time_series.TimeEntry()
-            atualizacao.data = day
-            atualizacao.value = convert_string_value_to_float(time_series_daily[day]['4. close'])
-            atualizacoes.append(atualizacao)
+            update = time_series.TimeEntry()
+            update.date = day
+            update.value = convert_string_value_to_float(time_series_daily[day]['4. close'])
+            updates.append(update)
         count += 1
-    return atualizacoes
+    return updates
 
 def converter_enterprise_info(to_convert): 
     enterprise = time_series.EnterpriseInfo()
@@ -29,9 +29,9 @@ def converter_enterprise_info(to_convert):
     enterprise.open_value = convert_string_value_to_float(data["02. open"])
     enterprise.high_value = convert_string_value_to_float(data["03. high"])
     enterprise.low_value = convert_string_value_to_float(data["04. low"])
-    enterprise.price_value: convert_string_value_to_float(data["05. price"])
+    enterprise.price_value = convert_string_value_to_float(data["05. price"])
     enterprise.volume_value = float(data["06. volume"])
-    enterprise.data = data["07. latest trading day"]
+    enterprise.date = data["07. latest trading day"]
     enterprise.previous_close = convert_string_value_to_float(data["08. previous close"])
     enterprise.change = data["09. change"]
     enterprise.change_percentage = data["10. change percent"]
