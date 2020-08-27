@@ -32,7 +32,6 @@ async def pontos_ibovespa():
 @app.get("/empresas")
 async def listar_possiveis_empresas(nome_empresa: str):
     retorno_busca = await alpha.procurar_empresa(nome_empresa)
-    print(len(retorno_busca))
     if len(retorno_busca) == 0:
         raise HTTPException(
             status_code = 404,
