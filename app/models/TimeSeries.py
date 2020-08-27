@@ -1,15 +1,22 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
+class EnterpriseInfo(BaseModel):
+    symbol: Optional[str] = None
+    open_value: Optional[float]
+    high_value: Optional[float]
+    low_value: Optional[float]
+    price_value: Optional[float]
+    volume_value: Optional[float]
+    date: Optional[str] = None
+    previous_close: Optional[float]
+    change: Optional[str]
+    change_percentage: Optional[str]
+
 class TimeEntry(BaseModel):
-    data: Optional[str] = None
-    open_value: Optional[str] = None
-    high_value: Optional[str] = None
-    low_value: Optional[str] = None
-    close_value: Optional[str] = None
-    volume_value: Optional[str] = None
+    date: Optional[str] = None
+    value: Optional[float]
 
 class BovespaTimeSeries(BaseModel):
-    ultima_atualizacao: Optional[str] = None
-    simbolo: Optional[str] = None
-    atualizacoes: List[TimeEntry] = []
+    info: Optional[EnterpriseInfo]
+    updates: List[TimeEntry] = []
