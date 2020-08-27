@@ -1,11 +1,11 @@
+#external
 from fastapi import FastAPI
-from typing import List, Optional
-from pydantic import BaseModel
-
 from fastapi.middleware.cors import CORSMiddleware
 
+#internal
 import app.models.TimeSeries as time_series
-from app.api.alpha_vantage import obter_pontos_ibovespa
+import app.api.alpha_vantage as alpha
+import app.models.constants as constants
 
 app = FastAPI()
 
@@ -24,4 +24,7 @@ app.add_middleware(
 
 @app.get("/pontos-ibovespa")
 async def pontos_ibovespa(response_model = time_series.BovespaTimeSeries):
-    return await obter_pontos_ibovespa()
+    bovespa = time_series.BovespaTimeSeries()
+    bovespa.atualizacoes = await alpha.obter_variacoes_ibovespa()
+    bovespa.informacoes = await alpha.obter_informacoes_empresa(constants.BOVESPA)
+    return bovespa
