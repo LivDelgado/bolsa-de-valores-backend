@@ -24,7 +24,6 @@ def convert_time_series(to_convert):
 
 def convert_enterprise_info(to_convert): 
     enterprise = time_series.EnterpriseInfo()
-    print(to_convert)
     data = to_convert["Global Quote"]
     if (len(data) == 0):
         return None
