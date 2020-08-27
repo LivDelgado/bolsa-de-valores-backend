@@ -10,7 +10,7 @@ from app.api.alpha_vantage import obter_pontos_ibovespa
 app = FastAPI()
 
 origins = [
-    "https://bolsa-de-valores-livia-delgado.netlify.app/",
+    "https://bolsa-de-valores-livia-delgado.netlify.app",
     "http://localhost:8080",
 ]
 
