@@ -1,6 +1,6 @@
 #external
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 #internal
 import app.models.TimeSeries as time_series
@@ -9,11 +9,17 @@ import app.models.constants as constants
 
 app = FastAPI()
 
+origins = [
+    "https://bolsa-de-valores-livia-delgado.netlify.app",
+    "http://localhost:8080",
+    "http://localhost:8080/",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
