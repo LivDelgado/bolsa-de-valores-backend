@@ -11,7 +11,9 @@ def convert_string_value_to_float(value):
 
 def convert_time_series(to_convert):
     updates = []
-    time_series_daily = to_convert['Time Series (Daily)']
+    time_series_daily = to_convert.get("Time Series (Daily)", [])
+    if (len(time_series_daily) == 0):
+        return updates
     count = 0
     for day in time_series_daily:
         if count < 10:
@@ -24,7 +26,7 @@ def convert_time_series(to_convert):
 
 def convert_enterprise_info(to_convert): 
     enterprise = time_series.EnterpriseInfo()
-    data = to_convert["Global Quote"]
+    data = to_convert.get("Global Quote", [])
     if (len(data) == 0):
         return None
     enterprise.symbol = data["01. symbol"]
@@ -40,7 +42,9 @@ def convert_enterprise_info(to_convert):
     return enterprise
 
 def converter_enterprise_matches(to_convert):
-    best_matches = to_convert["bestMatches"]
+    best_matches = to_convert.get("bestMatches", [])
+    if (len(best_matches) == 0):
+        return []
     enterprise_matches = []
     if len(best_matches) == 0:
         return []
