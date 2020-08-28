@@ -64,7 +64,6 @@ async def obter_variacoes_ibovespa():
         "function": "TIME_SERIES_DAILY", 
         "symbol": constants.BOVESPA
     }
-    time.sleep(15)
     response = requests.get(config.API_URL, params = data)
     return convert_time_series(response.json())
 
