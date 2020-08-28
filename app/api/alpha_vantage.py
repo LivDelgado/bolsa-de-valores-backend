@@ -1,4 +1,3 @@
-import time
 import requests
 from typing import List
 
@@ -73,7 +72,6 @@ async def obter_informacoes_empresa(symbol):
         "function": "GLOBAL_QUOTE", 
         "symbol": symbol
     }
-    time.sleep(15)
     response = requests.get(config.API_URL, params = data)
     return convert_enterprise_info(response.json())
 
@@ -83,6 +81,5 @@ async def procurar_empresa(nome_empresa):
         "function": "SYMBOL_SEARCH", 
         "keywords": nome_empresa
     }
-    time.sleep(15)
     response = requests.get(config.API_URL, params = data)
     return converter_enterprise_matches(response.json())
