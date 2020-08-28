@@ -11,6 +11,7 @@ app = FastAPI()
 
 origins = [
     "https://bolsa-de-valores-livia-delgado.netlify.app",
+    "https://bolsa-de-valores-livia-delgado.netlify.app/",
     "http://localhost:8080",
     "http://localhost:8080/",
 ]
